@@ -1,0 +1,62 @@
+NAME:
+
+    Basecamp PHP API - A PHP class for access to the Basecamp REST API.
+
+AUTHOR:
+
+    Monte Ohrt (monte [at] ohrt [dot] com)
+
+LATEST VERSION:
+
+    1.0 - Aug 9, 2009
+
+SYNOPSIS:
+
+    // typical REST request
+    require('Basecamp.class.php');
+    $bc = new Basecamp('http://mysite.basecamphq.com/','myname','mypass');
+    $output = $bc->getProjects();
+    // see the XML output
+    print_r($output);
+
+    // same request, but output is SimpleXML for easy PHP iteration
+    require('Basecamp.class.php');
+    $bc = new Basecamp('http://mysite.basecamphq.com/','myname','mypass','simplexml');
+    $SimpleXMLObject = $bc->getProjects();
+    // see the SimpleXML object
+    print_r($SimpleXMLObject);
+
+    // upload a file and attach to a new message
+    $file_id = $bc->uploadFile('./myfile.zip');
+
+    $response = $bc->createMessageForProject(
+      1234567,
+      'test title',
+      'test body',
+      null,
+      null,
+      0,
+      false,
+      array(),
+      array(array('My Zip File',$file_id,'application/zip','myfile.zip'))
+    );
+ 
+    
+
+DESCRIPTION:
+
+    Basecamp is a web service project manager found at http://www.basecamphq.com/.
+    Basecamp provides a REST API for developer access. Basecamp PHP API is a PHP
+    library that encapsulates all of the Basecamp API features into a simple to
+    use PHP class.
+
+    At this point there is not extensive documentation, as the code documents itself
+    very nicely :) You can choose the output of XML or SimpleXML, as seen in the
+    example above.
+
+OTHER PROJECTS:
+
+View my other projects at http://www.phpinsider.com/.
+
+Happy coding.
+Monte
