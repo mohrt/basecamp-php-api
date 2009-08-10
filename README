@@ -12,8 +12,9 @@ LATEST VERSION:
 
 REQUIREMENTS:
     
-    PHP 5.x
-    curl library PHP extension
+    PHP 5+
+    curl PHP extension
+    SimpleXML PHP extension (if simplexml is used as output)
 
 SYNOPSIS:
 
