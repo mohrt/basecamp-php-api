@@ -102,13 +102,6 @@ class Basecamp {
     $this->setUsername($username);
     $this->setPassword($password);
     $this->setFormat($format);
- 
-    /*    
-    $this->request = new RestRequest("{$this->baseurl}projects.xml",'GET');
-    $this->request->setUsername($username);
-    $this->request->setPassword($password);
-    */
-    
   }
  
   /* public methods */
@@ -2005,9 +1998,6 @@ class Basecamp {
     $this->request->setRequestBody($this->request_body);
     
     $this->request->execute();
-    
-    // unset body for next request
-    $this->request_body = null;
     
     $response_info = $this->request->getResponseInfo();
     $response_content = $this->request->getResponseBody();
