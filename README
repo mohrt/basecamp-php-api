@@ -48,6 +48,9 @@ SYNOPSIS:
       array(array('My Zip File',$file_id,'application/zip','myfile.zip'))
     );
 
+    // copy milestones and to-do's between projects
+    $bc->copyProject($from_project_id,$to_project_id);
+
 DESCRIPTION:
 
     Basecamp is a web service project manager found at http://www.basecamphq.com/.
@@ -66,6 +69,12 @@ DESCRIPTION:
     $response['status'] => the status of the response
     $response['location'] => the location URL (if any)
     $response['id'] => the new record id (if any)
+
+    The copyProject() method currently copies milestones and todo lists/items
+    from one project to another. Both projects must exist in Basecamp, you cannot
+    create projects through the API. All responsible parties and dates are
+    preserved.
+   
 
 FUNCTION LIST:
 
