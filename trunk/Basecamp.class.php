@@ -26,7 +26,7 @@
  * @copyright 2009 REBEL INTERACTIVE, Inc.
  * @author Monte Ohrt <monte at ohrt dot com>
  * @package BasecampPHPAPI
- * @version 1.0.1-dev
+ * @version 1.1-dev
  */
 
 /* $Id$ */
@@ -1424,7 +1424,7 @@ class Basecamp {
    * </ul>
    * @return array response content
    */  
-  public function getMilestonesForProject($project_id,$filter_type='all') {
+  public function getMilestonesForProject($project_id,$filter_type='all',$format=null) {
     if(!preg_match('!^\d+$!',$project_id))
       throw new InvalidArgumentException("project id must be a number.");
   	$filter_type = strtolower($filter_type);
@@ -1437,7 +1437,7 @@ class Basecamp {
     
     $this->setupRequestBody($data);    
     
-    return $this->processRequest("{$this->baseurl}projects/{$project_id}/milestones/list","POST");
+    return $this->processRequest("{$this->baseurl}projects/{$project_id}/milestones/list","POST",$format);
   }
 
   /**
@@ -1869,6 +1869,121 @@ class Basecamp {
       ),"GET");
   } 
 
+  /**
+   * Copy milestones and to-do lists/items from one project to another.
+   * Note: both projects must exist in Basecamp. Be sure to create
+   * A blank project to copy into. All responsible parties and milestone
+   * dates are preserved. After the project is copied, you can adjust the
+   * date of the first milestone and tell Basecamp to push the dates
+   * of the other milestones forward (from the web interface.)
+   *
+   * @param int $from_project_id
+   * @param int $to_project_id
+   * @return array response content
+   */  
+  public function copyProject($from_project_id,$to_project_id) {
+  	
+    if(!preg_match('!^\d+$!',$from_project_id))
+      throw new InvalidArgumentException("from project id must be a number.");
+    if(!preg_match('!^\d+$!',$to_project_id))
+      throw new InvalidArgumentException("to project id must be a number.");
+   	
+    // grab the milestones from the first project
+    $response = $this->getMilestonesForProject($from_project_id,'all','simplexml');
+    
+    if($response['status'] != 200) {
+      throw new InvalidArgumentException("unable to retrieve project '{$from_project_id}'.");    	
+    }
+    $milestone_link = array();
+    // copy milestones to new project, keep a list of old_id=>new_id
+    foreach($response['body']->milestone as $milestone) {
+    	$response_makemile = $this->createMilestoneForProject(
+    		$to_project_id,
+    		$milestone->title,
+    		$milestone->deadline,
+    		$milestone->{'responsible-party-type'},
+    		$milestone->{'responsible-party-id'},
+    		$milestone->{'wants-notification'}
+    		);
+    	if($response_makemile['status'] != 201) {
+    		throw new InvalidArgumentException("unable to create new milestone: '{$response_makemile['body']}'");   	    		
+    	}
+    	$id = (int) $milestone->id;
+    	$milestone_link[$id] = (int)$response_makemile['id'];
+    	
+    	$this->sleeper();
+    	
+    }
+    
+		// copy to-do lists
+		$response_lists = $this->getTodoListsForProject($from_project_id,'all','simplexml');
+
+		if($response_lists['status'] != 200) {
+			throw new InvalidArgumentException("unable to get to-do lists: '{$response_lists['body']}'");   	    		
+		}
+		
+		foreach($response_lists['body']->{'todo-list'} as $list) {
+			$orig_ms_id = (int)$list->{'milestone-id'};
+			$new_ms_id = $milestone_link[$orig_ms_id];
+			$response_makelist = $this->createTodoListForProject(
+				$to_project_id,
+				$list->name,
+				$list->description,
+				$new_ms_id,
+				$list->private,
+				$list->tracked
+				);
+
+			if($response_makelist['status'] != 201) {
+				throw new InvalidArgumentException("unable to create to-do list: '{$response_makelist['body']}'");   	    		
+			}
+			
+			$todo_list_id = $response_makelist['id'];
+
+			// copy to-do list items
+			
+      $response_items = $this->getTodoItemsForList($list->id,'simplexml');
+      
+			if($response_items['status'] != 200) {
+				throw new InvalidArgumentException("unable to get to-do list items: '{$response_items['body']}'");   	    		
+			}
+			
+			foreach($response_items['body']->{'todo-item'} as $item) {
+				$response_maketodo = $this->createTodoItemForList(
+					$todo_list_id,
+					$item->content,
+					$item->{'responsible-party-type'},
+					$item->{'responsible-party-id'},
+					false // do not notify
+			  );
+			  
+			  $this->sleeper();
+				
+			}
+			
+			$this->sleeper();
+			
+		}
+    
+  } 
+  
+  /**
+   * sleep every so often so basecamp
+   * doesn't complain about flooding.
+   *
+   * @return string $username
+   */  
+  private function sleeper()
+  {
+  	static $counter = 0;
+  	
+  	if($counter > 2) {
+  		sleep(1);
+  		$counter = 0;
+  	} else {
+  		$counter++;
+  	}
+  }  
   
   /* setters and getters */  
   
