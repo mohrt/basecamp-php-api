@@ -293,7 +293,7 @@ class Basecamp {
   public function getCategoriesForProject($project_id,$type='post',$format=null) {
     if(!preg_match('!^\d+$!',$project_id))
       throw new InvalidArgumentException("project id must be a number.");
-    $type = strtolower($type);
+  	$type = strtolower($type);
     if(!in_array($type,array('post','attachment')))
       throw new InvalidArgumentException("'{$type}' is an invalid category type.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}/categories.xml?type={$type}","GET",$format);
@@ -342,12 +342,12 @@ class Basecamp {
    * @return array response content
    */  
   public function createCategoryForProject($project_id,$category_name,$type='post') {
-    $type = strtolower($type);
+  	$type = strtolower($type);
     if(!preg_match('!^\d+$!',$project_id))
       throw new InvalidArgumentException("project id must be a number.");
     if(empty($category_name))
       throw new InvalidArgumentException("category name cannot be empty.");
-    $type = strtolower($type);
+  	$type = strtolower($type);
     if(!in_array($type,array('post','attachment')))
       throw new InvalidArgumentException("'{$type}' is an invalid category type.");
     
@@ -673,7 +673,7 @@ class Basecamp {
    * @return array response content
    */  
   public function getRecentCommentsForResource($resource_type,$resource_id) {
-    $resource_type = strtolower($resource_type);
+  	$resource_type = strtolower($resource_type);
     if(!in_array($resource_type,array('posts','milestones','todo_items')))
       throw new InvalidArgumentException("'{$resource_type}' is an invalid resource type.");
     if(!preg_match('!^\d+$!',$resource_id))
@@ -743,7 +743,7 @@ class Basecamp {
    * @return array response content
    */  
   public function newCommentTemplateForResource($resource_type,$resource_id) {
-    $resource_type = strtolower($resource_type);
+  	$resource_type = strtolower($resource_type);
     if(!in_array($resource_type,array('posts','milestones','todo_items')))
       throw new InvalidArgumentException("'{$resource_type}' is an invalid resource type.");
     if(!preg_match('!^\d+$!',$resource_id))
@@ -925,7 +925,7 @@ class Basecamp {
    * @return array response content
    */  
   public function getTodoListsForResource($resource_type,$resource_id=null) {
-    $resource_type = strtolower($resource_type);
+  	$resource_type = strtolower($resource_type);
     if(!in_array($resource_type,array('me','person','company')))
       throw new InvalidArgumentException("'{$resource_type}' is an invalid resource type.");
     if($resource_type !== 'me' && !preg_match('!^\d+$!',$resource_id))
@@ -986,7 +986,7 @@ class Basecamp {
   public function getTodoListsForProject($project_id,$filter_type='all',$format=null) {
     if(!preg_match('!^\d+$!',$project_id))
       throw new InvalidArgumentException("project id must be a number.");
-    $filter_type = strtolower($filter_type);
+  	$filter_type = strtolower($filter_type);
     if(!in_array($filter_type,array('all','pending','finished')))
       throw new InvalidArgumentException("'{$filter_type}' is an invalid filter type.");
     
@@ -1277,7 +1277,7 @@ class Basecamp {
       throw new InvalidArgumentException("todo list id must be a number.");
     if(empty($content))
       throw new InvalidArgumentException("todo item content cannot be empty.");
-    $responsible_party_type = strtolower($responsible_party_type);
+  	$responsible_party_type = strtolower($responsible_party_type);
     if(isset($responsible_party_type) && !in_array($responsible_party_type,array('person','company')))
       throw new InvalidArgumentException("'{$responsible_party_type}' is not a valid responsible party type.");
     if(!empty($responsible_party_type) && empty($responsible_party_id))
@@ -1335,7 +1335,7 @@ class Basecamp {
       throw new InvalidArgumentException("todo id must be a number.");
     if(empty($content))
       throw new InvalidArgumentException("todo item content cannot be empty.");
-    $responsible_party_type = strtolower($responsible_party_type);
+  	$responsible_party_type = strtolower($responsible_party_type);
     if(isset($responsible_party_type) && !in_array($responsible_party_type,array('person','company')))
       throw new InvalidArgumentException("'{$responsible_party_type}' is not a valid responsible party type.");
     if(!empty($responsible_party_type) && empty($responsible_party_id))
@@ -1427,7 +1427,7 @@ class Basecamp {
   public function getMilestonesForProject($project_id,$filter_type='all',$format=null) {
     if(!preg_match('!^\d+$!',$project_id))
       throw new InvalidArgumentException("project id must be a number.");
-    $filter_type = strtolower($filter_type);
+  	$filter_type = strtolower($filter_type);
     if(!in_array($filter_type,array('all','late','completed','upcoming')))
       throw new InvalidArgumentException("'{$filter_type}' is not a valid filter type.");
     
@@ -1493,7 +1493,7 @@ class Basecamp {
       throw new InvalidArgumentException("title cannot be empty.");
     if(empty($deadline))
       throw new InvalidArgumentException("deadline date cannot be empty.");
-    $responsible_party_type = strtolower($responsible_party_type);
+  	$responsible_party_type = strtolower($responsible_party_type);
     if(isset($responsible_party_type) && !in_array($responsible_party_type,array('person','company')))
       throw new InvalidArgumentException("'{$responsible_party_type}' is not a valid responsible party type.");
     if(!empty($responsible_party_type) && empty($responsible_party_id))
@@ -1564,7 +1564,7 @@ class Basecamp {
       throw new InvalidArgumentException("title cannot be empty.");
     if(empty($deadline))
       throw new InvalidArgumentException("deadline date cannot be empty.");
-    $responsible_party_type = strtolower($responsible_party_type);
+  	$responsible_party_type = strtolower($responsible_party_type);
     if(isset($responsible_party_type) && !in_array($responsible_party_type,array('person','company')))
       throw new InvalidArgumentException("'{$responsible_party_type}' is not a valid responsible party type.");
     if(!empty($responsible_party_type) && empty($responsible_party_id))
@@ -1882,88 +1882,88 @@ class Basecamp {
    * @return array response content
    */  
   public function copyProject($from_project_id,$to_project_id) {
-    
+  	
     if(!preg_match('!^\d+$!',$from_project_id))
       throw new InvalidArgumentException("from project id must be a number.");
     if(!preg_match('!^\d+$!',$to_project_id))
       throw new InvalidArgumentException("to project id must be a number.");
-     
+   	
     // grab the milestones from the first project
     $response = $this->getMilestonesForProject($from_project_id,'all','simplexml');
     
     if($response['status'] != 200) {
-      throw new InvalidArgumentException("unable to retrieve project '{$from_project_id}'.");      
+      throw new InvalidArgumentException("unable to retrieve project '{$from_project_id}'.");    	
     }
     $milestone_link = array();
     // copy milestones to new project, keep a list of old_id=>new_id
     foreach($response['body']->milestone as $milestone) {
-      $response_makemile = $this->createMilestoneForProject(
-        $to_project_id,
-        $milestone->title,
-        $milestone->deadline,
-        $milestone->{'responsible-party-type'},
-        $milestone->{'responsible-party-id'},
-        $milestone->{'wants-notification'}
-        );
-      if($response_makemile['status'] != 201) {
-        throw new InvalidArgumentException("unable to create new milestone: '{$response_makemile['body']}'");             
-      }
-      $id = (int) $milestone->id;
-      $milestone_link[$id] = (int)$response_makemile['id'];
-      
-      $this->sleeper();
-      
+    	$response_makemile = $this->createMilestoneForProject(
+    		$to_project_id,
+    		$milestone->title,
+    		$milestone->deadline,
+    		$milestone->{'responsible-party-type'},
+    		$milestone->{'responsible-party-id'},
+    		$milestone->{'wants-notification'}
+    		);
+    	if($response_makemile['status'] != 201) {
+    		throw new InvalidArgumentException("unable to create new milestone: '{$response_makemile['body']}'");   	    		
+    	}
+    	$id = (int) $milestone->id;
+    	$milestone_link[$id] = (int)$response_makemile['id'];
+    	
+    	$this->sleeper();
+    	
     }
     
-    // copy to-do lists
-    $response_lists = $this->getTodoListsForProject($from_project_id,'all','simplexml');
+		// copy to-do lists
+		$response_lists = $this->getTodoListsForProject($from_project_id,'all','simplexml');
 
-    if($response_lists['status'] != 200) {
-      throw new InvalidArgumentException("unable to get to-do lists: '{$response_lists['body']}'");             
-    }
-    
-    foreach($response_lists['body']->{'todo-list'} as $list) {
-      $orig_ms_id = (int)$list->{'milestone-id'};
-      $new_ms_id = $milestone_link[$orig_ms_id];
-      $response_makelist = $this->createTodoListForProject(
-        $to_project_id,
-        $list->name,
-        $list->description,
-        $new_ms_id,
-        $list->private,
-        $list->tracked
-        );
+		if($response_lists['status'] != 200) {
+			throw new InvalidArgumentException("unable to get to-do lists: '{$response_lists['body']}'");   	    		
+		}
+		
+		foreach($response_lists['body']->{'todo-list'} as $list) {
+			$orig_ms_id = (int)$list->{'milestone-id'};
+			$new_ms_id = $milestone_link[$orig_ms_id];
+			$response_makelist = $this->createTodoListForProject(
+				$to_project_id,
+				$list->name,
+				$list->description,
+				$new_ms_id,
+				$list->private,
+				$list->tracked
+				);
 
-      if($response_makelist['status'] != 201) {
-        throw new InvalidArgumentException("unable to create to-do list: '{$response_makelist['body']}'");             
-      }
-      
-      $todo_list_id = $response_makelist['id'];
+			if($response_makelist['status'] != 201) {
+				throw new InvalidArgumentException("unable to create to-do list: '{$response_makelist['body']}'");   	    		
+			}
+			
+			$todo_list_id = $response_makelist['id'];
 
-      // copy to-do list items
-      
+			// copy to-do list items
+			
       $response_items = $this->getTodoItemsForList($list->id,'simplexml');
       
-      if($response_items['status'] != 200) {
-        throw new InvalidArgumentException("unable to get to-do list items: '{$response_items['body']}'");             
-      }
-      
-      foreach($response_items['body']->{'todo-item'} as $item) {
-        $response_maketodo = $this->createTodoItemForList(
-          $todo_list_id,
-          $item->content,
-          $item->{'responsible-party-type'},
-          $item->{'responsible-party-id'},
-          false // do not notify
-        );
-        
-        $this->sleeper();
-        
-      }
-      
-      $this->sleeper();
-      
-    }
+			if($response_items['status'] != 200) {
+				throw new InvalidArgumentException("unable to get to-do list items: '{$response_items['body']}'");   	    		
+			}
+			
+			foreach($response_items['body']->{'todo-item'} as $item) {
+				$response_maketodo = $this->createTodoItemForList(
+					$todo_list_id,
+					$item->content,
+					$item->{'responsible-party-type'},
+					$item->{'responsible-party-id'},
+					false // do not notify
+			  );
+			  
+			  $this->sleeper();
+				
+			}
+			
+			$this->sleeper();
+			
+		}
     
   } 
   
@@ -1975,14 +1975,14 @@ class Basecamp {
    */  
   private function sleeper()
   {
-    static $counter = 0;
-    
-    if($counter > 2) {
-      sleep(1);
-      $counter = 0;
-    } else {
-      $counter++;
-    }
+  	static $counter = 0;
+  	
+  	if($counter > 2) {
+  		sleep(1);
+  		$counter = 0;
+  	} else {
+  		$counter++;
+  	}
   }  
   
   /* setters and getters */  
@@ -2028,7 +2028,7 @@ class Basecamp {
   {
     if(empty($format))
       throw new InvalidArgumentException("format cannot be empty.");
-    $format = strtolower($format);
+  	$format = strtolower($format);
     if(!in_array($format,array('xml','simplexml')))
       throw new InvalidArgumentException("'{$format}' is not a valid format.");
     $this->format = $format;
@@ -2157,6 +2157,7 @@ class Basecamp {
     if(!isset($format))
       $format = $this->format;
       
+    $return['body'] = trim($return['body']);
     if(!empty($return['body']) && $format == 'simplexml') {
       // return simplexml object
       $return['body'] = new SimpleXMLElement($return['body']);
