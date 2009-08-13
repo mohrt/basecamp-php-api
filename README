@@ -28,9 +28,10 @@ SYNOPSIS:
     // same request, but output is SimpleXML for easy PHP iteration
     require('Basecamp.class.php');
     $bc = new Basecamp('http://mysite.basecamphq.com/','myname','mypass','simplexml');
-    $SimpleXMLObject = $bc->getProjects();
-    // see the SimpleXML object
-    print_r($SimpleXMLObject);
+    $response = $bc->getProjects();
+    // iterate the projects
+    foreach($response['body']->project as $project)
+      print_r($project);
 
     // upload a file and attach to a new message
     $file_id = $bc->uploadFile('./myfile.zip');
