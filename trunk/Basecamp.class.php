@@ -26,7 +26,7 @@
  * @copyright 2009 REBEL INTERACTIVE, Inc.
  * @author Monte Ohrt <monte at ohrt dot com>
  * @package BasecampPHPAPI
- * @version 1.0-dev
+ * @version 1.1-dev
  */
 
 /* $Id$ */
@@ -122,8 +122,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getProject($project_id) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}.xml","GET");
   }
   
@@ -162,8 +162,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getPeopleForProject($project_id,$format=null) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}/people.xml","GET",$format);
   }  
 
@@ -192,8 +192,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getPeopleForCompany($company_id,$format=null) {
-    if(empty($company_id))
-      throw new InvalidArgumentException("company id cannot be empty.");
+    if(!preg_match('!^\d+$!',$company_id))
+      throw new InvalidArgumentException("company id must be a number.");
     return $this->processRequest("{$this->baseurl}companies/{$company_id}/people.xml","GET",$format);
   }  
 
@@ -221,8 +221,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getPerson($person_id) {
-    if(empty($person_id))
-      throw new InvalidArgumentException("person id cannot be empty.");
+    if(!preg_match('!^\d+$!',$person_id))
+      throw new InvalidArgumentException("person id must be a number.");
     return $this->processRequest("{$this->baseurl}people/{$person_id}.xml","GET");
   }
   
@@ -242,8 +242,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getCompaniesForProject($project_id,$format=null) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}/companies.xml","GET",$format);
   }  
 
@@ -272,8 +272,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getCompany($company_id) {
-    if(empty($company_id))
-      throw new InvalidArgumentException("company id cannot be empty.");
+    if(!preg_match('!^\d+$!',$company_id))
+      throw new InvalidArgumentException("company id must be a number.");
     return $this->processRequest("{$this->baseurl}companies/{$company_id}.xml","GET");
   } 
   
@@ -291,8 +291,9 @@ class Basecamp {
    * @return array response content
    */  
   public function getCategoriesForProject($project_id,$type='post',$format=null) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
+  	$type = strtolower($type);
     if(!in_array($type,array('post','attachment')))
       throw new InvalidArgumentException("'{$type}' is an invalid category type.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}/categories.xml?type={$type}","GET",$format);
@@ -322,8 +323,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getCategory($category_id) {
-    if(empty($category_id))
-      throw new InvalidArgumentException("category id cannot be empty.");
+    if(!preg_match('!^\d+$!',$category_id))
+      throw new InvalidArgumentException("category id must be a number.");
     return $this->processRequest("{$this->baseurl}categories/{$category_id}.xml","GET");
   } 
   
@@ -341,10 +342,12 @@ class Basecamp {
    * @return array response content
    */  
   public function createCategoryForProject($project_id,$category_name,$type='post') {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+  	$type = strtolower($type);
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     if(empty($category_name))
       throw new InvalidArgumentException("category name cannot be empty.");
+  	$type = strtolower($type);
     if(!in_array($type,array('post','attachment')))
       throw new InvalidArgumentException("'{$type}' is an invalid category type.");
     
@@ -373,8 +376,8 @@ class Basecamp {
    * @return array response content
    */  
   public function updateCategoryName($category_id,$category_name) {
-    if(empty($category_id))
-      throw new InvalidArgumentException("category id cannot be empty.");
+    if(!preg_match('!^\d+$!',$category_id))
+      throw new InvalidArgumentException("category id must be a number.");
     if(empty($category_name))
       throw new InvalidArgumentException("'{$category_name}' cannot be empty.");
     
@@ -395,8 +398,8 @@ class Basecamp {
    * @return array response content
    */  
   public function deleteCategory($category_id) {
-    if(empty($category_id))
-      throw new InvalidArgumentException("category id cannot be empty.");
+    if(!preg_match('!^\d+$!',$category_id))
+      throw new InvalidArgumentException("category id must be a number.");
     return $this->processRequest("{$this->baseurl}categories/{$category_id}.xml","DELETE");
   } 
 
@@ -407,8 +410,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getMessagesForProject($project_id) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}/posts.xml","GET");
   }  
   
@@ -419,8 +422,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getMessage($message_id) {
-    if(empty($message_id))
-      throw new InvalidArgumentException("message id cannot be empty.");
+    if(!preg_match('!^\d+$!',$message_id))
+      throw new InvalidArgumentException("message id must be a number.");
     return $this->processRequest("{$this->baseurl}posts/{$message_id}.xml","GET");
   } 
   
@@ -432,10 +435,10 @@ class Basecamp {
    * @return array response content
    */  
   public function getMessagesForProjectForCategory($project_id,$category_id) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
-    if(empty($category_id))
-      throw new InvalidArgumentException("category id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
+    if(!preg_match('!^\d+$!',$category_id))
+      throw new InvalidArgumentException("category id must be a number.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}/cat/{$category_id}/posts.xml","GET");
   }  
   
@@ -446,8 +449,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getArchivedMessageSummaryForProject($project_id) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}/posts/archive.xml","GET");
   }  
   
@@ -459,10 +462,10 @@ class Basecamp {
    * @return array response content
    */  
   public function getArchivedMessageSummaryForProjectForCategory($project_id,$category_id) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
-    if(empty($category_id))
-      throw new InvalidArgumentException("category id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
+    if(!preg_match('!^\d+$!',$category_id))
+      throw new InvalidArgumentException("category id must be a number.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}/cat/{$category_id}/posts/archive.xml","GET");
   }  
   
@@ -473,8 +476,8 @@ class Basecamp {
    * @return array response content
    */  
   public function newMessageTemplateForProject($project_id) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}/posts/new.xml","GET");
   }  
   
@@ -503,8 +506,8 @@ class Basecamp {
     $notify_people=array(),
     $attachments=array()
     ) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     if(empty($title))
       throw new InvalidArgumentException("title cannot be empty.");
     if(!is_array($notify_people))
@@ -582,8 +585,8 @@ class Basecamp {
    * @return mixed message content
    */  
   public function editMessage($message_id) {
-    if(empty($message_id))
-      throw new InvalidArgumentException("message id cannot be empty.");
+    if(!preg_match('!^\d+$!',$message_id))
+      throw new InvalidArgumentException("message id must be a number.");
     return $this->processRequest("{$this->baseurl}posts/{$project_id}.xml","GET");
   }  
   
@@ -605,8 +608,8 @@ class Basecamp {
     $notify_people=array(),
     $attachments=array()
     ) {
-    if(empty($message_id))
-      throw new InvalidArgumentException("category id cannot be empty.");
+    if(!preg_match('!^\d+$!',$message_id))
+      throw new InvalidArgumentException("message id must be a number.");
     if(empty($title))
       throw new InvalidArgumentException("category name cannot be empty.");
     
@@ -651,8 +654,8 @@ class Basecamp {
    * @return array response content
    */  
   public function deleteMessage($message_id) {
-    if(empty($message_id))
-      throw new InvalidArgumentException("message id cannot be empty.");
+    if(!preg_match('!^\d+$!',$message_id))
+      throw new InvalidArgumentException("message id must be a number.");
     return $this->processRequest("{$this->baseurl}posts/{$message_id}.xml","DELETE");
   } 
 
@@ -670,10 +673,11 @@ class Basecamp {
    * @return array response content
    */  
   public function getRecentCommentsForResource($resource_type,$resource_id) {
+  	$resource_type = strtolower($resource_type);
     if(!in_array($resource_type,array('posts','milestones','todo_items')))
       throw new InvalidArgumentException("'{$resource_type}' is an invalid resource type.");
-    if(empty($resource_id))
-      throw new InvalidArgumentException("resource id cannot be empty.");
+    if(!preg_match('!^\d+$!',$resource_id))
+      throw new InvalidArgumentException("resource id must be a number.");
     return $this->processRequest("{$this->baseurl}{$resource_type}/{$resource_id}/comments.xml","GET");
   }
 
@@ -684,6 +688,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getRecentCommentsForMessage($message_id) {
+    if(!preg_match('!^\d+$!',$message_id))
+      throw new InvalidArgumentException("message id must be a number.");
     return $this->getRecentCommentsForResource('posts',$message_id);
   }
 
@@ -694,6 +700,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getRecentCommentsForMilestone($milestone_id) {
+    if(!preg_match('!^\d+$!',$milestone_id))
+      throw new InvalidArgumentException("milestone id must be a number.");
     return $this->getRecentCommentsForResource('milestones',$milestone_id);
   }
 
@@ -704,6 +712,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getRecentCommentsForTodoItem($todo_id) {
+    if(!preg_match('!^\d+$!',$todo_id))
+      throw new InvalidArgumentException("todo id must be a number.");
     return $this->getRecentCommentsForResource('todo_items',$todo_id);
   }
   
@@ -714,8 +724,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getComment($comment_id) {
-    if(empty($comment_id))
-      throw new InvalidArgumentException("comment id cannot be empty.");
+    if(!preg_match('!^\d+$!',$comment_id))
+      throw new InvalidArgumentException("comment_id id must be a number.");
     return $this->processRequest("{$this->baseurl}comments/{$comment_id}.xml","GET");
   } 
   
@@ -733,10 +743,11 @@ class Basecamp {
    * @return array response content
    */  
   public function newCommentTemplateForResource($resource_type,$resource_id) {
+  	$resource_type = strtolower($resource_type);
     if(!in_array($resource_type,array('posts','milestones','todo_items')))
       throw new InvalidArgumentException("'{$resource_type}' is an invalid resource type.");
-    if(empty($resource_id))
-      throw new InvalidArgumentException("resource id cannot be empty.");
+    if(!preg_match('!^\d+$!',$resource_id))
+      throw new InvalidArgumentException("resource id must be a number.");
     return $this->processRequest("{$this->baseurl}{$resource_type}/{$resource_id}/comments/new.xml","GET");
   }  
   
@@ -785,8 +796,8 @@ class Basecamp {
     ) {
     if(empty($resource_type))
       throw new InvalidArgumentException("resource type cannot be empty.");
-    if(empty($resource_id))
-      throw new InvalidArgumentException("resource id cannot be empty.");
+    if(!preg_match('!^\d+$!',$resource_id))
+      throw new InvalidArgumentException("resource id must be a number.");
     if(empty($body))
       throw new InvalidArgumentException("comment body cannot be empty.");
     
@@ -856,8 +867,8 @@ class Basecamp {
    * @return mixed response content
    */  
   public function editComment($comment_id) {
-    if(empty($comment_id))
-      throw new InvalidArgumentException("comment id cannot be empty.");
+    if(!preg_match('!^\d+$!',$comment_id))
+      throw new InvalidArgumentException("comment id must be a number.");
     return $this->processRequest("{$this->baseurl}comments/{$comment_id}.xml","GET");
   }  
   
@@ -872,8 +883,8 @@ class Basecamp {
     $comment_id,
     $body
     ) {
-    if(empty($comment_id))
-      throw new InvalidArgumentException("comment id cannot be empty.");
+    if(!preg_match('!^\d+$!',$comment_id))
+      throw new InvalidArgumentException("comment id must be a number.");
     if(empty($body))
       throw new InvalidArgumentException("comment body cannot be empty.");
     
@@ -895,8 +906,8 @@ class Basecamp {
    * @return array response content
    */  
   public function deleteComment($comment_id) {
-    if(empty($comment_id))
-      throw new InvalidArgumentException("comment id cannot be empty.");
+    if(!preg_match('!^\d+$!',$comment_id))
+      throw new InvalidArgumentException("comment id must be a number.");
     return $this->processRequest("{$this->baseurl}comments/{$comment_id}.xml","DELETE");
   }
 
@@ -914,10 +925,11 @@ class Basecamp {
    * @return array response content
    */  
   public function getTodoListsForResource($resource_type,$resource_id=null) {
+  	$resource_type = strtolower($resource_type);
     if(!in_array($resource_type,array('me','person','company')))
       throw new InvalidArgumentException("'{$resource_type}' is an invalid resource type.");
-    if($resource_type !== 'me' && empty($resource_id))
-      throw new InvalidArgumentException("resource id cannot be empty.");
+    if($resource_type !== 'me' && !preg_match('!^\d+$!',$resource_id))
+      throw new InvalidArgumentException("resource id must be a number.");
     
     if($resource_type == 'unassigned')
       $responsible_party = '';
@@ -953,6 +965,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getTodoListsForCompany($company_id) {
+    if(!preg_match('!^\d+$!',$company_id))
+      throw new InvalidArgumentException("company id must be a number.");
     return $this->getTodoListsForResource('company',$company_id);
   }  
 
@@ -970,8 +984,9 @@ class Basecamp {
    * @return array response content
    */  
   public function getTodoListsForProject($project_id,$filter_type='all',$format=null) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
+  	$filter_type = strtolower($filter_type);
     if(!in_array($filter_type,array('all','pending','finished')))
       throw new InvalidArgumentException("'{$filter_type}' is an invalid filter type.");
     
@@ -1010,8 +1025,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getTodoList($todo_list_id) {
-    if(empty($todo_list_id))
-      throw new InvalidArgumentException("todo list id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_list_id))
+      throw new InvalidArgumentException("todo list id must be a number.");
     return $this->processRequest("{$this->baseurl}todo_lists/{$todo_list_id}.xml","GET");
   }  
   
@@ -1022,8 +1037,8 @@ class Basecamp {
    * @return mixed response content
    */  
   public function editTodoList($todo_list_id) {
-    if(empty($todo_list_id))
-      throw new InvalidArgumentException("todo list id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_list_id))
+      throw new InvalidArgumentException("todo list id must be a number.");
     return $this->processRequest("{$this->baseurl}todo_lists/{$todo_list_id}/edit.xml","GET");
   }  
   
@@ -1046,8 +1061,8 @@ class Basecamp {
     $private=null,
     $tracked=null
     ) {
-    if(empty($todo_list_id))
-      throw new InvalidArgumentException("todo list id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_list_id))
+      throw new InvalidArgumentException("todo list id must be a number.");
     if(empty($name))
       throw new InvalidArgumentException("todo list name cannot be empty.");
     
@@ -1073,8 +1088,8 @@ class Basecamp {
    * @return array response content
    */  
   public function newTodoListTemplateForProject($project_id) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     return $this->processRequest("{$this->baseurl}projects/{$project_id}/todo_lists/new.xml","GET");
   }
   
@@ -1097,8 +1112,8 @@ class Basecamp {
     $private=null,
     $tracked=null
     ) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     if(empty($name))
       throw new InvalidArgumentException("todo list name cannot be empty.");
     
@@ -1130,8 +1145,8 @@ class Basecamp {
    * @return array response content
    */  
   public function deleteTodoList($todo_list_id) {
-    if(empty($todo_list_id))
-      throw new InvalidArgumentException("todo list id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_list_id))
+      throw new InvalidArgumentException("todo list id must be a number.");
     return $this->processRequest("{$this->baseurl}todo_lists/{$todo_list_id}.xml","DELETE");
   }
 
@@ -1143,8 +1158,8 @@ class Basecamp {
    * @return array response content
    */  
   public function reorderTodoListsForProject($project_id,$list_ids) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     
     $content = array(
               'todo-lists type="array"'=>array(
@@ -1166,8 +1181,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getTodoItemsForList($todo_list_id,$format=null) {
-    if(empty($todo_list_id))
-      throw new InvalidArgumentException("todo list id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_list_id))
+      throw new InvalidArgumentException("todo list id must be a number.");
     return $this->processRequest("{$this->baseurl}todo_lists/{$todo_list_id}/todo_items.xml","GET",$format);
   }  
   
@@ -1195,8 +1210,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getTodoItem($item_id) {
-    if(empty($item_id))
-      throw new InvalidArgumentException("item id cannot be empty.");
+    if(!preg_match('!^\d+$!',$item_id))
+      throw new InvalidArgumentException("item id must be a number.");
     return $this->processRequest("{$this->baseurl}todo_items/{$item_id}.xml","GET");
   } 
 
@@ -1207,8 +1222,8 @@ class Basecamp {
    * @return array response content
    */  
   public function completeTodoItem($item_id) {
-    if(empty($item_id))
-      throw new InvalidArgumentException("item id cannot be empty.");
+    if(!preg_match('!^\d+$!',$item_id))
+      throw new InvalidArgumentException("item id must be a number.");
     return $this->processRequest("{$this->baseurl}todo_items/{$item_id}/complete.xml","PUT");
   } 
   
@@ -1219,8 +1234,8 @@ class Basecamp {
    * @return array response content
    */  
   public function uncompleteTodoItem($item_id) {
-    if(empty($item_id))
-      throw new InvalidArgumentException("item id cannot be empty.");
+    if(!preg_match('!^\d+$!',$item_id))
+      throw new InvalidArgumentException("item id must be a number.");
     return $this->processRequest("{$this->baseurl}todo_items/{$item_id}/uncomplete.xml","PUT");
   } 
 
@@ -1231,15 +1246,15 @@ class Basecamp {
    * @return array response content
    */  
   public function newTodoItemTemplateForList($todo_list_id) {
-    if(empty($todo_list_id))
-      throw new InvalidArgumentException("todo list id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_list_id))
+      throw new InvalidArgumentException("todo list id must be a number.");
     return $this->processRequest("{$this->baseurl}todo_lists/{$todo_list_id}/todo_items/new.xml","GET");
   }
   
   /**
    * creates a todo item
    *
-   * @param int $project_id
+   * @param int $todo_list_id
    * @param string $content todo item content
    * @param string $responsible_party_type
    * possible values:
@@ -1258,10 +1273,11 @@ class Basecamp {
     $responsible_party_id=null,
     $notify=null
     ) {
-    if(empty($todo_list_id))
-      throw new InvalidArgumentException("todo list id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_list_id))
+      throw new InvalidArgumentException("todo list id must be a number.");
     if(empty($content))
       throw new InvalidArgumentException("todo item content cannot be empty.");
+  	$responsible_party_type = strtolower($responsible_party_type);
     if(isset($responsible_party_type) && !in_array($responsible_party_type,array('person','company')))
       throw new InvalidArgumentException("'{$responsible_party_type}' is not a valid responsible party type.");
     if(!empty($responsible_party_type) && empty($responsible_party_id))
@@ -1315,10 +1331,11 @@ class Basecamp {
     $responsible_party_id=null,
     $notify=null
     ) {
-    if(empty($todo_id))
-      throw new InvalidArgumentException("todo id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_id))
+      throw new InvalidArgumentException("todo id must be a number.");
     if(empty($content))
       throw new InvalidArgumentException("todo item content cannot be empty.");
+  	$responsible_party_type = strtolower($responsible_party_type);
     if(isset($responsible_party_type) && !in_array($responsible_party_type,array('person','company')))
       throw new InvalidArgumentException("'{$responsible_party_type}' is not a valid responsible party type.");
     if(!empty($responsible_party_type) && empty($responsible_party_id))
@@ -1351,8 +1368,8 @@ class Basecamp {
    * @return mixed response content
    */  
   public function editTodoItem($todo_id) {
-    if(empty($todo_id))
-      throw new InvalidArgumentException("todo id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_id))
+      throw new InvalidArgumentException("todo id must be a number.");
     return $this->processRequest("{$this->baseurl}todo_items/{$todo_id}/edit.xml","GET");
   }  
   
@@ -1363,8 +1380,8 @@ class Basecamp {
    * @return array response content
    */  
   public function deleteTodoItem($todo_id) {
-    if(empty($todo_id))
-      throw new InvalidArgumentException("todo id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_id))
+      throw new InvalidArgumentException("todo id must be a number.");
     return $this->processRequest("{$this->baseurl}todo_items/{$todo_id}.xml","DELETE");
   }
   
@@ -1376,8 +1393,8 @@ class Basecamp {
    * @return array response content
    */  
   public function reorderTodoItemsForList($todo_list_id,$todo_ids=array()) {
-    if(empty($todo_list_id))
-      throw new InvalidArgumentException("todo list id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_list_id))
+      throw new InvalidArgumentException("todo list id must be a number.");
     if(!is_array($todo_ids))
       throw new InvalidArgumentException("todo item ids must be an array.");
     
@@ -1408,8 +1425,9 @@ class Basecamp {
    * @return array response content
    */  
   public function getMilestonesForProject($project_id,$filter_type='all') {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
+  	$filter_type = strtolower($filter_type);
     if(!in_array($filter_type,array('all','late','completed','upcoming')))
       throw new InvalidArgumentException("'{$filter_type}' is not a valid filter type.");
     
@@ -1429,8 +1447,8 @@ class Basecamp {
    * @return array response content
    */  
   public function completeMilestone($milestone_id) {
-    if(empty($milestone_id))
-      throw new InvalidArgumentException("milestone id cannot be empty.");
+    if(!preg_match('!^\d+$!',$milestone_id))
+      throw new InvalidArgumentException("milestone id must be a number.");
     return $this->processRequest("{$this->baseurl}/milestones/complete/{$milestone_id}","PUT");
   }
 
@@ -1441,8 +1459,8 @@ class Basecamp {
    * @return array response content
    */  
   public function uncompleteMilestone($milestone_id) {
-    if(empty($milestone_id))
-      throw new InvalidArgumentException("milestone id cannot be empty.");
+    if(!preg_match('!^\d+$!',$milestone_id))
+      throw new InvalidArgumentException("milestone id must be a number.");
     return $this->processRequest("{$this->baseurl}/milestones/uncomplete/{$milestone_id}","PUT");
   }
 
@@ -1469,12 +1487,13 @@ class Basecamp {
     $responsible_party_type=null,
     $responsible_party_id=null,
     $notify=null) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     if(empty($title))
       throw new InvalidArgumentException("title cannot be empty.");
     if(empty($deadline))
       throw new InvalidArgumentException("deadline date cannot be empty.");
+  	$responsible_party_type = strtolower($responsible_party_type);
     if(isset($responsible_party_type) && !in_array($responsible_party_type,array('person','company')))
       throw new InvalidArgumentException("'{$responsible_party_type}' is not a valid responsible party type.");
     if(!empty($responsible_party_type) && empty($responsible_party_id))
@@ -1539,12 +1558,13 @@ class Basecamp {
     $responsible_party_type=null,
     $responsible_party_id=null,
     $notify=null) {
-    if(empty($milestone_id))
-      throw new InvalidArgumentException("milestone id cannot be empty.");
+    if(!preg_match('!^\d+$!',$milestone_id))
+      throw new InvalidArgumentException("milestone id must be a number.");
     if(empty($title))
       throw new InvalidArgumentException("title cannot be empty.");
     if(empty($deadline))
       throw new InvalidArgumentException("deadline date cannot be empty.");
+  	$responsible_party_type = strtolower($responsible_party_type);
     if(isset($responsible_party_type) && !in_array($responsible_party_type,array('person','company')))
       throw new InvalidArgumentException("'{$responsible_party_type}' is not a valid responsible party type.");
     if(!empty($responsible_party_type) && empty($responsible_party_id))
@@ -1583,8 +1603,8 @@ class Basecamp {
    * @return array response content
    */  
   public function deleteMilestone($milestone_id) {
-    if(empty($milestone_id))
-      throw new InvalidArgumentException("milestone id cannot be empty.");
+    if(!preg_match('!^\d+$!',$milestone_id))
+      throw new InvalidArgumentException("milestone id must be a number.");
     return $this->processRequest("{$this->baseurl}milestones/delete/{$milestone_id}","DELETE");
   }
   
@@ -1596,8 +1616,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getTimeEntriesForProject($project_id,$page=0) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
     $response = $this->processRequest("{$this->baseurl}projects/{$project_id}/time_entries.xml?page={$page}","GET");
     if(preg_match('!X-Records: (\d+)!',$response['headers'],$match))
     $response['records'] = $match[1];
@@ -1617,8 +1637,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getTimeEntriesForTodoItem($todo_id,$page=0) {
-    if(empty($todo_id))
-      throw new InvalidArgumentException("todo id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_id))
+      throw new InvalidArgumentException("todo id must be a number.");
     $response = $this->processRequest("{$this->baseurl}todo_items/{$todo_id}/time_entries.xml?page={$page}","GET");
     if(preg_match('!X-Records: (\d+)!',$response['headers'],$match))
     $response['records'] = $match[1];
@@ -1646,10 +1666,10 @@ class Basecamp {
     $date,
     $hours,
     $description=null) {
-    if(empty($project_id))
-      throw new InvalidArgumentException("project id cannot be empty.");
-    if(empty($person_id))
-      throw new InvalidArgumentException("person id cannot be empty.");
+    if(!preg_match('!^\d+$!',$project_id))
+      throw new InvalidArgumentException("project id must be a number.");
+    if(!preg_match('!^\d+$!',$person_id))
+      throw new InvalidArgumentException("person id must be a number.");
     if(empty($date))
       throw new InvalidArgumentException("date cannot be empty.");
     if(empty($hours))
@@ -1697,10 +1717,10 @@ class Basecamp {
     $date,
     $hours,
     $description=null) {
-    if(empty($todo_id))
-      throw new InvalidArgumentException("todo id cannot be empty.");
-    if(empty($person_id))
-      throw new InvalidArgumentException("person id cannot be empty.");
+    if(!preg_match('!^\d+$!',$todo_id))
+      throw new InvalidArgumentException("todo_ id must be a number.");
+    if(!preg_match('!^\d+$!',$person_id))
+      throw new InvalidArgumentException("person id must be a number.");
     if(empty($date))
       throw new InvalidArgumentException("date cannot be empty.");
     if(empty($hours))
@@ -1739,8 +1759,8 @@ class Basecamp {
    * @return array response content
    */  
   public function getTimeEntry($entry_id) {
-    if(empty($entry_id))
-      throw new InvalidArgumentException("entry id cannot be empty.");
+    if(!preg_match('!^\d+$!',$entry_id))
+      throw new InvalidArgumentException("entry id must be a number.");
     return $this->processRequest("{$this->baseurl}time_entries/{$entry_id}.xml","GET");
   } 
   
@@ -1751,8 +1771,8 @@ class Basecamp {
    * @return mixed response content
    */  
   public function editTimeEntry($entry_id) {
-    if(empty($entry_id))
-      throw new InvalidArgumentException("entry id cannot be empty.");
+    if(!preg_match('!^\d+$!',$entry_id))
+      throw new InvalidArgumentException("entry id must be a number.");
     return $this->processRequest("{$this->baseurl}time_entries/{$entry_id}/edit.xml","GET");
   }  
 
@@ -1772,10 +1792,10 @@ class Basecamp {
     $date,
     $hours,
     $description=null) {
-    if(empty($entry_id))
-      throw new InvalidArgumentException("entry id cannot be empty.");
-    if(empty($person_id))
-      throw new InvalidArgumentException("person id cannot be empty.");
+    if(!preg_match('!^\d+$!',$entry_id))
+      throw new InvalidArgumentException("entry id must be a number.");
+    if(!preg_match('!^\d+$!',$person_id))
+      throw new InvalidArgumentException("person id must be a number.");
     if(empty($date))
       throw new InvalidArgumentException("date cannot be empty.");
     if(empty($hours))
@@ -1809,8 +1829,8 @@ class Basecamp {
    * @return array response content
    */  
   public function deleteTimeEntry($entry_id) {
-    if(empty($entry_id))
-      throw new InvalidArgumentException("entry id cannot be empty.");
+    if(!preg_match('!^\d+$!',$entry_id))
+      throw new InvalidArgumentException("entry id must be a number.");
     return $this->processRequest("{$this->baseurl}time_entries/{$entry_id}.xml","DELETE");
   }
   
@@ -1892,7 +1912,8 @@ class Basecamp {
   public function setFormat($format)
   {
     if(empty($format))
-      throw new InvalidArgumentException("password cannot be empty.");
+      throw new InvalidArgumentException("format cannot be empty.");
+  	$format = strtolower($format);
     if(!in_array($format,array('xml','simplexml')))
       throw new InvalidArgumentException("'{$format}' is not a valid format.");
     $this->format = $format;
