@@ -47,8 +47,6 @@ SYNOPSIS:
       array(),
       array(array('My Zip File',$file_id,'application/zip','myfile.zip'))
     );
- 
-    
 
 DESCRIPTION:
 
@@ -60,6 +58,14 @@ DESCRIPTION:
     At this point there is not extensive documentation, as the code documents itself
     very nicely :) You can choose the output of XML or SimpleXML, as seen in the
     example above.
+
+    Each API method returns an array of values:
+
+    $response['body'] => the body of the response (xml or simplexml object)
+    $response['headers'] => the headers of the response
+    $response['status'] => the status of the response
+    $response['location'] => the location URL (if any)
+    $response['id'] => the new record id (if any)
 
 FUNCTION LIST:
 
