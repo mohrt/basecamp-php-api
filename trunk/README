@@ -21,9 +21,9 @@ SYNOPSIS:
     // typical REST request
     require('Basecamp.class.php');
     $bc = new Basecamp('http://mysite.basecamphq.com/','myname','mypass');
-    $output = $bc->getProjects();
+    $response = $bc->getProjects();
     // see the XML output
-    print_r($output);
+    print_r($response['body']);
 
     // same request, but output is SimpleXML for easy PHP iteration
     require('Basecamp.class.php');
