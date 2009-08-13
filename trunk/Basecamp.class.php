@@ -26,7 +26,7 @@
  * @copyright 2009 REBEL INTERACTIVE, Inc.
  * @author Monte Ohrt <monte at ohrt dot com>
  * @package BasecampPHPAPI
- * @version 1.0.1-dev
+ * @version 1.0.2-dev
  */
 
 /* $Id$ */
