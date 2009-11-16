@@ -1257,6 +1257,7 @@ class Basecamp {
    * @param int $todo_list_id
    * @param string $content todo item content
    * @param string $responsible_party_type
+   * @param string $responsible_party_id
    * possible values:
    * <ul>
    *   <li>person</li>
@@ -1264,6 +1265,7 @@ class Basecamp {
    * </ul>
    * @param int $responsible_party_id
    * @param bool $notify send notifications?
+   * @param string $due_at datetime in format 2009-11-16T22:45:09Z
    * @return array response content
    */  
   public function createTodoItemForList(
@@ -1271,7 +1273,8 @@ class Basecamp {
     $content,
     $responsible_party_type=null,
     $responsible_party_id=null,
-    $notify=null
+    $notify=null,
+    $due_at=null
     ) {
     if(!preg_match('!^\d+$!',$todo_list_id))
       throw new InvalidArgumentException("todo list id must be a number.");
@@ -1294,7 +1297,8 @@ class Basecamp {
               'todo-item'=>array(
                 'content'=>$content,
                 'responsible-party'=>$resp_party,
-                'notify type="boolean"'=>$notify
+                'notify type="boolean"'=>$notify,
+                'due-at type="datetime"'=>$due_at
                 )
             );
     
@@ -1322,6 +1326,7 @@ class Basecamp {
    * </ul>
    * @param int $responsible_party_id
    * @param bool $notify send notifications?
+   * @param string $due_at datetime in format 2009-11-16T22:45:09Z
    * @return array response content
    */  
   public function updateTodoItem(
@@ -1329,7 +1334,8 @@ class Basecamp {
     $content,
     $responsible_party_type=null,
     $responsible_party_id=null,
-    $notify=null
+    $notify=null,
+    $due_at=null
     ) {
     if(!preg_match('!^\d+$!',$todo_id))
       throw new InvalidArgumentException("todo id must be a number.");
@@ -1352,7 +1358,8 @@ class Basecamp {
               'todo-item'=>array(
                 'content'=>$content,
                 'responsible-party'=>$resp_party,
-                'notify type="boolean"'=>$notify
+                'notify type="boolean"'=>$notify,
+                'due-at type="datetime"'=>$due_at                
                 )
             );
     
