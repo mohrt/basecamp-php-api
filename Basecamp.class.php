@@ -1265,7 +1265,7 @@ class Basecamp {
    * </ul>
    * @param int $responsible_party_id
    * @param bool $notify send notifications?
-   * @param string $due_at datetime in format 2009-11-16T22:45:09Z
+   * @param string $due_at datetime
    * @return array response content
    */  
   public function createTodoItemForList(
@@ -1298,7 +1298,7 @@ class Basecamp {
                 'content'=>$content,
                 'responsible-party'=>$resp_party,
                 'notify type="boolean"'=>$notify,
-                'due-at type="datetime"'=>$due_at
+                'due-at type="datetime"'=>$this->formatDateTime($due_at)
                 )
             );
     
@@ -1326,7 +1326,7 @@ class Basecamp {
    * </ul>
    * @param int $responsible_party_id
    * @param bool $notify send notifications?
-   * @param string $due_at datetime in format 2009-11-16T22:45:09Z
+   * @param string $due_at datetime
    * @return array response content
    */  
   public function updateTodoItem(
@@ -1359,7 +1359,7 @@ class Basecamp {
                 'content'=>$content,
                 'responsible-party'=>$resp_party,
                 'notify type="boolean"'=>$notify,
-                'due-at type="datetime"'=>$due_at                
+                'due-at type="datetime"'=>$this->formatDateTime($due_at)                
                 )
             );
     
@@ -2114,6 +2114,22 @@ class Basecamp {
   
   /* private methods */
 
+  /**
+   * format a string date into API datetime format
+   *
+   * @param string $datetime
+   */  
+  private function formatDateTime($datetime) {
+    if(empty($datetime) || preg_match('!^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$!',$datetime)) {
+      // empty/null, or already correct format
+      return $datetime;
+    } else {
+      // convert to correct format
+      return strftime('%Y-%m-%dT%H:%M:%SZ',strtotime($datetime));
+    }
+  }  
+  
+  
   /**
    * setup the REST request body
    *
