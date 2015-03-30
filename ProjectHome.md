@@ -1,0 +1,1 @@
+Basecamp is a web service project manager found at http://www.basecamphq.com/. Basecamp provides a REST API for developer access. Basecamp PHP API is a PHP library that encapsulates all of the Basecamp API features into a simple to use PHP class. See the [README](http://code.google.com/p/basecamp-php-api/source/browse/trunk/README) for details.
